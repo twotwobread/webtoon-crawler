@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "webtoon-crawler"
+version = "0.1.0"
+description = ""
+authors = ["twotwobread <dltndud9137@naver.com>"]
+readme = "README.md"
+packages = [{include = "webtoon_crawler"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
