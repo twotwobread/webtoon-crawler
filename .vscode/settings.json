@@ -1,8 +1,3 @@
 {
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
-    "python.linting.lintOnSave": true,
     "editor.formatOnSave": true,
-    "python.formatting.provider": "black",
-    "python.formatting.blackPath": "/Users/sylee/Desktop/sw-workspace/personal/webtoon-crawler/.venv/bin/black"
 }
