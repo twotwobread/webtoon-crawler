@@ -8,6 +8,10 @@ packages = [{include = "webtoon_crawler"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+scrapy = "^2.10.1"
+black = "^23.7.0"
+pre-commit = "^3.3.3"
+ruff = "^0.0.286"
 
 
 [build-system]
