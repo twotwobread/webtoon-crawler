@@ -5,10 +5,13 @@ from logging.handlers import RotatingFileHandler
 from webtoon_crawler.utils import join_with_root, make_directory
 
 MAX_LOG_FILE_SIZE = 1024 * 1024 * 100  # 100 MB
-DEBUG_LOG_PATH = join_with_root("logs/debug")
-ERROR_LOG_PATH = join_with_root("logs/error")
-make_directory(DEBUG_LOG_PATH)
-make_directory(ERROR_LOG_PATH)
+
+DEBUG_LOG_PATH = "logs/debug"
+ERROR_LOG_PATH = "logs/error"
+DEBUG_ABS_LOG_PATH = join_with_root(DEBUG_LOG_PATH)
+ERROR_ABS_LOG_PATH = join_with_root("logs/error")
+make_directory(DEBUG_ABS_LOG_PATH)
+make_directory(ERROR_ABS_LOG_PATH)
 
 
 class DateBasedRotatingFileHandler(RotatingFileHandler):
@@ -52,23 +55,23 @@ def get_file_logger(name):
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
-    error_handler = DateBasedRotatingFileHandler(
-        "logs/error",
-        f'{datetime.now().strftime("%Y%m%d")}.log',
-        MAX_LOG_FILE_SIZE,
-        10,
-    )
-    error_handler.setLevel(logging.ERROR)
-    error_handler.setFormatter(formatter)
-
     debug_handler = DateBasedRotatingFileHandler(
-        "logs/debug",
+        DEBUG_LOG_PATH,
         f'{datetime.now().strftime("%Y%m%d")}.log',
         MAX_LOG_FILE_SIZE,
         10,
     )
     debug_handler.setLevel(logging.DEBUG)
     debug_handler.setFormatter(formatter)
+
+    error_handler = DateBasedRotatingFileHandler(
+        ERROR_LOG_PATH,
+        f'{datetime.now().strftime("%Y%m%d")}.log',
+        MAX_LOG_FILE_SIZE,
+        10,
+    )
+    error_handler.setLevel(logging.ERROR)
+    error_handler.setFormatter(formatter)
 
     logger.addHandler(error_handler)
     logger.addHandler(debug_handler)
