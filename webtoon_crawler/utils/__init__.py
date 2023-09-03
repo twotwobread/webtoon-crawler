@@ -1,12 +1,11 @@
 import os
 import shutil
-import sys
+from pathlib import Path
 
 
 def get_root_path():
-    root = sys.argv[0]
-    root_dir = os.path.dirname(root)
-    return os.path.abspath(root_dir)
+    root = Path(__file__).parent.parent.parent
+    return os.path.abspath(root)
 
 
 def join_with_root(path):
@@ -15,8 +14,7 @@ def join_with_root(path):
 
 
 def make_directory(path, delete=False):
-    if delete and os.path.exists(path):
-        shutil.rmtree(path, ignore_errors=False)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    if delete:
+        shutil.rmtree(path, ignore_errors=True)
+    os.makedirs(path, exist_ok=True)
     return path
