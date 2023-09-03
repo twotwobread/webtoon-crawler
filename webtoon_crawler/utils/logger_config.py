@@ -12,9 +12,14 @@ make_directory(ERROR_LOG_PATH)
 
 
 class DateBasedRotatingFileHandler(RotatingFileHandler):
+    def __init__(self, dir_path: str, log_filename: str, *args) -> None:
+        super().__init__(f"{dir_path}/{log_filename}", *args)
+        self.dir_path = dir_path
+        self.log_filename = log_filename
+
     def emit(self, record):
         current_date = datetime.now().strftime("%Y%m%d")
-        new_base_filename = f"{current_date}.log"
+        new_base_filename = f"{self.dir_path}/{current_date}.log"
 
         if self.baseFilename != new_base_filename:
             self.baseFilename = new_base_filename
@@ -48,17 +53,19 @@ def get_file_logger(name):
     )
 
     error_handler = DateBasedRotatingFileHandler(
-        f'logs/error/{datetime.now().strftime("%Y%m%d")}.log',
-        maxBytes=MAX_LOG_FILE_SIZE,
-        backupCount=10,
+        "logs/error",
+        f'{datetime.now().strftime("%Y%m%d")}.log',
+        MAX_LOG_FILE_SIZE,
+        10,
     )
     error_handler.setLevel(logging.ERROR)
     error_handler.setFormatter(formatter)
 
     debug_handler = DateBasedRotatingFileHandler(
-        f'logs/debug/{datetime.now().strftime("%Y%m%d")}.log',
-        maxBytes=MAX_LOG_FILE_SIZE,
-        backupCount=10,
+        "logs/debug",
+        f'{datetime.now().strftime("%Y%m%d")}.log',
+        MAX_LOG_FILE_SIZE,
+        10,
     )
     debug_handler.setLevel(logging.DEBUG)
     debug_handler.setFormatter(formatter)
